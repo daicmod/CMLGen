@@ -16,7 +16,7 @@ if __name__ == '__main__':
     model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=1)
     model.fit(X, y)
 
-    crfc = RFCGen(model, X.columns, X.dtypes, ["ANS_NO", "ANS_YES"])
+    crfc = RFCGen(model, X.dtypes, ["ANS_NO", "ANS_YES"])
     crfc.write("./")
 
     pred = model.predict(X)

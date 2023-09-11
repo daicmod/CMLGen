@@ -1,11 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef RANDOM_FORREST
 #include"random_forrest_classifier.h"
-
+#endif
+#ifdef LOGISTIC_REGRESSION
+#include"logistic_regression.h"
+#endif
 
 void main(){
-    TS_RandomForestClassifier st_rfc;
+    #ifdef RANDOM_FORREST
+    TS_RandomForestClassifier st_model;
+    #endif
+    #ifdef LOGISTIC_REGRESSION
+    TS_Logistic_Regression st_model;
+    #endif
     char line[1024];  // CSVファイルの各行を格納するバッファ
     int first = 1;
     int fail = 0;
@@ -30,22 +39,22 @@ void main(){
 
         // 行をカンマで分割
         token = strtok(line, delim); // Pclass
-        st_rfc.Pclass = atoi(token);
+        st_model.Pclass = atoi(token);
         token = strtok(NULL, delim);  // SibSp
-        st_rfc.SibSp = atoi(token);
+        st_model.SibSp = atoi(token);
         token = strtok(NULL, delim);  // Parch
-        st_rfc.Parch = atoi(token);
+        st_model.Parch = atoi(token);
         token = strtok(NULL, delim);  // Fare
-        st_rfc.Fare = atof(token);
+        st_model.Fare = atof(token);
         token = strtok(NULL, delim);  // Age
-        st_rfc.Age = atof(token);
+        st_model.Age = atof(token);
         token = strtok(NULL, delim);  // Sex_female        
-        st_rfc.Sex_female = (strcmp(token,"True") == 0)? 1:0;
+        st_model.Sex_female = (strcmp(token,"True") == 0)? 1:0;
         token = strtok(NULL, delim);  // Sex_male
-        st_rfc.Sex_male = (strcmp(token,"True") == 0)? 1:0;
+        st_model.Sex_male = (strcmp(token,"True") == 0)? 1:0;
         token = strtok(NULL, delim);  // ans
         ans = atoi(token);
-        pred = predict(&st_rfc);
+        pred = predict(&st_model);
         if (pred!=ans){
             printf("CPRED:%d, PYPRED:%d\n LINE:%s\n", pred, ans, buff);
             fail = 1;
